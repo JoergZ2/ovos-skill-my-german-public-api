@@ -71,6 +71,7 @@ class MyGermanPublicApi(OVOSSkill):
     def handle_postalcode_dialog(self, message):
         town = self.get_response('ask_for_town', num_retries=1)
         street = self.get_response('ask_for_street', num_retries=1)
+        street = street.replace("straße","str.") #openplz doesn't have 'straße' only 'str.'
         #town, street = self.replace_umlaute(town, street)
         answer = self.make_query_plz(self.lang, town, street)
         answer = self.prepare_answer(answer)
