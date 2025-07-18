@@ -43,17 +43,13 @@ class MyGermanPublicApi(OVOSSkill):
         # Handle settings changes if necessary
 
     #Functions
-    def replace_umlaute(self, town=None, street=None):
-        town = parse.quote(town)
-        street = street.replace("straße","str.")
-        street = parse.quote(street)
-        return(town, street)
-
-    def make_query_plz(state, town, street):
+    ##postalcode functions
+    def make_query_plz(self, state, town, street):
         base_url = "https://openplzapi.org/" + state + "/Streets?name=" \
                 + street + "&locality=" + town + "&page=1&pageSize=10"
         response = http.request('GET',base_url, headers={"accept": "application/json"})
         return response.json()
+    #next functions
 
     def prepare_answer(self, answer):
         if not answer:
@@ -63,8 +59,10 @@ class MyGermanPublicApi(OVOSSkill):
             return postalcode
         else:
             results = []
-            for item in answer:
-                results.append(f"{item['name']} in {item['locality']} with postal code {item['postalCode']}")
+            i = 0
+            while i < len(answer):
+                results.append(answer[i]['name'] + "in " + answer[i]['locality'] + "postleitzahl " + answer[i]['postalCode'])
+                i += 1
             return "Es gibt mehrere Ergebnisse: " + ", ".join(results)
     #Intents    
     @intent_handler('postalcode_dialog.intent')
@@ -72,7 +70,6 @@ class MyGermanPublicApi(OVOSSkill):
         town = self.get_response('ask_for_town', num_retries=1)
         street = self.get_response('ask_for_street', num_retries=1)
         street = street.replace("straße","str.") #openplz doesn't have 'straße' only 'str.'
-        #town, street = self.replace_umlaute(town, street)
         answer = self.make_query_plz(self.lang, town, street)
         answer = self.prepare_answer(answer)
         if answer:
