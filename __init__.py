@@ -45,6 +45,7 @@ class MyGermanPublicApi(OVOSSkill):
     #Functions
     ##postalcode functions
     def make_query_plz(self, state, town, street):
+        state = state[:2].lower()  # Ensure state is in lowercase and only first two letters
         base_url = "https://openplzapi.org/" + state + "/Streets?name=" \
                 + street + "&locality=" + town + "&page=1&pageSize=10"
         response = http.request('GET',base_url, headers={"accept": "application/json"})
