@@ -76,4 +76,4 @@ class MyGermanPublicApi(OVOSSkill):
         if answer:
             self.speak(answer)
         else:
-            self.speak_dialog('no_results_found')
+            self.speak_dialog('no_result')
