@@ -202,7 +202,7 @@ class MyGermanPublicApi(OVOSSkill):
         else:
             self.speak_dialog('no_result')
 
-    @intent_handler('flood_warnimgs_all.imtent')
+    @intent_handler('flood_warnimgs_all.intent')
     def handle_flood_warnings_all(self, message):
         state = message.data.get('state', None)
         if state is not None:
