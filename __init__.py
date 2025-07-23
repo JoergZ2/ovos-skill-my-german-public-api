@@ -12,7 +12,7 @@ http = urllib3.PoolManager()
 # -*- coding: utf-8 -*-
 DEFAULT_SETTINGS = {
     "__mycroft_skill_firstrun": "False",
-    "states" = {
+    "states": {
         "schleswig-holstein": {
             "name": "Schleswig-Holstein",
             "code": "SH",
