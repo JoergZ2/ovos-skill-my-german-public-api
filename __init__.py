@@ -181,7 +181,7 @@ class MyGermanPublicApi(OVOSSkill):
                     warn_type = data['data'][i]['lhpClassName']
                     warn_area = data['data'][i]['areaDesc']
                     self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type)
-                    if len(data['data']) > 1 and len(data['data'] - [i] > 0:
+                    if len(data['data']) > 1 and len(data['data']) - i > 0:
                         sleep(3)
                     i += 1
             else:
