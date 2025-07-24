@@ -1,2 +1,2 @@
-gibt es Hochwasserwarnungen?
-aktuelle (hochwassermeldungen|hochwasserwarnungen)
+gibt es Hochwasserwarnungen (in {state}|für {state}|)?
+aktuelle (hochwassermeldungen|hochwasserwarnungen) (in {state}|für {state}|)
