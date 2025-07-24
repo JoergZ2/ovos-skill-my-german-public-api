@@ -173,6 +173,7 @@ class MyGermanPublicApi(OVOSSkill):
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
+            LOG.debug("Request result: " + str(data))
             # Check for key 'data' and length of key
             if 'data' in data and len(data['data'])>0:
                 i = 0
@@ -180,7 +181,7 @@ class MyGermanPublicApi(OVOSSkill):
                     warn_type = data['data'][i]['lhpClassName']
                     warn_area = data['data'][i]['areaDesc']
                     self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type)
-                    sleep(0.3)
+                    sleep(0.5)
                     i += 1
             else:
                 self.speak("Aktuell liegen keine Hochwasserdaten vor.")
