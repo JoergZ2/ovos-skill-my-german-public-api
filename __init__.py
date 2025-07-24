@@ -120,6 +120,7 @@ class MyGermanPublicApi(OVOSSkill):
         #from template
         self.settings.merge(DEFAULT_SETTINGS, new_only=True)
         self.states = self.settings.get('states', {})
+        LOG.info("States loaded: {}".format(self.states))
         self.settings_change_callback = self.on_settings_changed
     
     def on_settings_changed(self, settings):
