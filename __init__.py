@@ -179,7 +179,7 @@ class MyGermanPublicApi(OVOSSkill):
                 while i < len(data['data']):
                     warn_type = data['data'][i]['lhpClassName']
                     warn_area = data['data'][i]['areaDesc']
-                    self-speak("Region: " + warn_area + ", Warnungsart: " + warn_type)
+                    self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type)
                     sleep(0.3)
                     i += 1
             else:
