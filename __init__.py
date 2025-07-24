@@ -192,6 +192,39 @@ class MyGermanPublicApi(OVOSSkill):
         except json.JSONDecodeError:
             self.speak("Fehler beim Parsen der JSON-Antwort.")
 
+    ##traffic jam functions
+    def fetch_traffic_jam(self, highway):
+        highway = highway.replace(" ", "").upper()
+        url = "https://verkehr.autobahn.de/o/autobahn/" + highway + "/services/warning"
+        headers = {
+            'Accept': 'application/json'
+        }
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+            LOG.debug("Request result: " + str(data))
+            if 'warning' in data:
+                count_warning = len(data['warning'])
+                if count_warning == None:
+                    self.speak("Es gibt keine Verkehrsmeldungen für die Autobahn " + highway + ".")
+                if count_warning == 1:
+                    warn_location = data['warning'][0]['description'][3].replace("->", "Richtung")
+                    warn_reason = data['warning'][0]['description'][5]
+                    self.speak(warn_location + ", " + warn_reason)
+                if count_warning > 1:
+                    self.speak("Es gibt " + str(count_warning) + " Verkehrsmeldungen für die Autobahn " + highway + ".")
+                    i = 0
+                    while i < len(data['data']):
+                        warn_area = data['data'][i]['area']
+                        warn_text = data['data'][i]['text']
+                        self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type + ", Text: " + warn_text)
+                        if len(data['data']) > 1 and len(data['data']) - i > 0:
+                            sleep(3)
+                        i += 1
+            else:
+                self.speak("Aktuell liegen keine Verkehrsdaten vor.")
+
     #Intents    
     @intent_handler('postalcode_dialog.intent')
     def handle_postalcode_dialog(self, message):
@@ -215,3 +248,11 @@ class MyGermanPublicApi(OVOSSkill):
         else:
             state = ''
         self.fetch_flood_warnings(states=state)
+
+    @intent_handler('traffic_jam.intent')
+    def handle_traffic_jam(self, message):
+        highway = message.data.get('highway', None)
+        if highway is not None:
+            self.fetch_traffic_jam(highway)
+        else:
+            self.speak("Es muss eine Autobahnnumerin der Form A 39 angegeben werden.")
