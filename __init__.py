@@ -132,9 +132,9 @@ class MyGermanPublicApi(OVOSSkill):
     ###State values
     def state_values(self, state):
         if state.lower() in self.states:
-            state_name = state['name']
-            state_code = state['code']
-            state_key = state['key']
+            state_name = self.states[state]['name']
+            state_code = self.states[state]['code']
+            state_key = self.states[state]['key']
             return (state_name, state_code, state_key)
 
     ##postalcode functions
@@ -209,6 +209,7 @@ class MyGermanPublicApi(OVOSSkill):
     def handle_flood_warnings_all(self, message):
         state = message.data.get('state', None)
         if state is not None:
+            LOG.debug("State is: " + str(state))
             state = self.state_values(state)
             state = state[1]  # Get the state code
         else:
