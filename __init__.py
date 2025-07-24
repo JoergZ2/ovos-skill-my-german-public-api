@@ -120,7 +120,7 @@ class MyGermanPublicApi(OVOSSkill):
         #from template
         self.settings.merge(DEFAULT_SETTINGS, new_only=True)
         self.states = self.settings.get('states', {})
-        LOG.info("States loaded: {}".format(self.states))
+        LOG.debug("States loaded: {}".format(self.states))
         self.settings_change_callback = self.on_settings_changed
     
     def on_settings_changed(self, settings):
@@ -203,7 +203,7 @@ class MyGermanPublicApi(OVOSSkill):
         else:
             self.speak_dialog('no_result')
 
-    @intent_handler('flood_warnimgs_all.intent')
+    @intent_handler('flood_warnings_all.intent')
     def handle_flood_warnings_all(self, message):
         state = message.data.get('state', None)
         if state is not None:
