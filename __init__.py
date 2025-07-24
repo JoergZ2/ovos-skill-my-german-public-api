@@ -205,13 +205,13 @@ class MyGermanPublicApi(OVOSSkill):
         else:
             self.speak_dialog('no_result')
 
-    @intent_handler('flood_warnings_all.intent')
+    @intent_handler('flood_warnings.intent')
     def handle_flood_warnings_all(self, message):
         state = message.data.get('state', None)
         if state is not None:
             LOG.debug("State is: " + str(state))
             state = self.state_values(state)
-            state = state[1]  # Get the state code
+            state = state[1]  # Get the state code for selection of federal stae
         else:
             state = ''
         self.fetch_flood_warnings(states=state)
