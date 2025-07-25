@@ -11,5 +11,9 @@ Da es sich bei all diesen Begriffen häufig um Eigennamen handelt, haben STT(spe
 ### Hochwasserwarnungen
 - gibt es Hochwasserwarnungen  - alle vorliegenden Warnungen werden aufgezählt.
 - gibt es Hochwasserwarnungen für Bayern - nur Warnungen, die das Bundesland Bayern betreffen, werden wiedergegeben.
+### Verkehrsmeldungen
+- Verkehrsnachrichten [Staumeldungen] von der [Autobahn] {A 14}
+- gibt es Staus [Störungen] [Verkehrsmeldungen] auf [von] der [Autobahn] {A 9}
+Je nach Anzahl der Meldungen des Servers (keine, genau eine oder mehr als eine) unterscheiden sich die Ansagen strukturell. Dabei habe ich versucht je nach Länge der gesprochenen Informationen Pausen einzubauen. Es hängt allerdings auch von der Latenz des verwendeten TTS-Sytems ab, ob die Pausen eher zu kurz oder eher zu lang erscheinen.
 ## Weitere intents
 Geplant sind weitere intents, die Informationen von öffentlichen Servern holen wie z. B. Staumeldungen oder aktuelle statistische Daten zu Deutschland.
