@@ -1,4 +1,4 @@
-import urllib3, requests, json
+import requests, json
 from time import sleep
 from ovos_utils import classproperty
 from ovos_utils.log import LOG
@@ -8,7 +8,6 @@ from ovos_workshop.skills import OVOSSkill
 from ovos_bus_client.session import SessionManager
 from ovos_date_parser import extract_datetime, nice_date
 
-http = urllib3.PoolManager()
 # -*- coding: utf-8 -*-
 DEFAULT_SETTINGS = {
     "__mycroft_skill_firstrun": "False",
@@ -146,7 +145,6 @@ class MyGermanPublicApi(OVOSSkill):
             'Accept': 'application/json'
         }
         response = requests.get(base_url, headers=headers)
-        #response = http.request('GET',base_url, headers={"accept": "application/json"})
         return response.json()
     #next functions
 
@@ -163,6 +161,7 @@ class MyGermanPublicApi(OVOSSkill):
                 results.append(answer[i]['name'] + "in " + answer[i]['locality'] + "postleitzahl " + answer[i]['postalCode'])
                 i += 1
             return "Es gibt mehrere Ergebnisse: " + ", ".join(results)
+
     ##flood warning functions
     def fetch_flood_warnings(self,states=None):
         if states is None:
@@ -196,6 +195,7 @@ class MyGermanPublicApi(OVOSSkill):
         except json.JSONDecodeError:
             self.speak("Fehler beim Parsen der JSON-Antwort.")
 
+
     ##traffic jam functions
     def fetch_traffic_jam(self, highway):
         highway = highway.replace(" ", "").upper()
@@ -214,16 +214,22 @@ class MyGermanPublicApi(OVOSSkill):
                     self.speak("Es gibt keine Verkehrsmeldungen für die Autobahn " + highway + ".")
                 if count_warning == 1:
                     warn_location = data['warning'][0]['description'][3].replace("->", "Richtung")
-                    warn_reason = data['warning'][0]['description'][5]
+                    if data['warning'][0]['description'][5]:
+                        warn_reason = data['warning'][0]['description'][5]
+                    else:
+                        warn_reason = data['warning'][0]['description'][2].rstrip(",")
                     self.speak(warn_location + ", " + warn_reason)
                 if count_warning > 1:
                     self.speak("Es gibt " + str(count_warning) + " Verkehrsmeldungen für die Autobahn " + highway + ".")
+                    sleep(6)
                     i = 0
-                    while i < count_warning
+                    while i < count_warning:
                         answer = data['warning'][i]['description'][3].replace("->", "Richtung").replace(".",",")
-                        self.speak("Störung " + str(i) + ":  " + answer)
-                        if len(data['data']) > 1 and len(data['data']) - i > 0:
-                            sleep(5)
+                        i_natural = str(i + 1)
+                        self.speak("Störung " + i_natural + ":  " + answer)
+                        LOG.info("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len(answer)))
+                        if count_warning - i > 0:
+                            sleep(11)
                         i += 1
             else:
                 self.speak("Aktuell liegen keine Verkehrsdaten vor.")
