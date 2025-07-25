@@ -224,7 +224,7 @@ class MyGermanPublicApi(OVOSSkill):
                     sleep(6)  # Wait for 5.5 seconds before reading the first warning
                     i = 0
                     while i < count_warning:
-                        answer = data['warning'][i]['description'][3].replace("->", "Richtung").replace(".",",")
+                        answer = data['warning'][i]['description'][3].replace("->", "Richtung").replace("AS", "Ausfahrt").replace(".",",")
                         i_natural = str(i + 1)
                         len_answer = len(answer)
                         self.speak("Störung " + i_natural + ":  " + answer)
