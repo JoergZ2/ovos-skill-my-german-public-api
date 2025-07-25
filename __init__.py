@@ -218,6 +218,7 @@ class MyGermanPublicApi(OVOSSkill):
                         warn_reason = data['warning'][0]['description'][5]
                     else:
                         warn_reason = data['warning'][0]['description'][2].rstrip(",")
+                        warn_reason = warn_reason.replace("->", "Richtung").replace("AS", "Ausfahrt").replace(".",",")
                     self.speak(warn_location + ", " + warn_reason)
                 if count_warning > 1:
                     self.speak("Es gibt " + str(count_warning) + " Verkehrsmeldungen für die Autobahn " + highway + ".")
