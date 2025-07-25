@@ -228,14 +228,14 @@ class MyGermanPublicApi(OVOSSkill):
                         i_natural = str(i + 1)
                         len_answer = len(answer)
                         self.speak("Störung " + i_natural + ":  " + answer)
-                        LOG.info("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len_answer))
+                        LOG.debug("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len_answer))
                         if count_warning - i > 0:
                             if len_answer > 100:
                                 sleep(12.5)
                             elif len_answer > 90:
-                                sleep(11)
+                                sleep(10)
                             elif len_answer > 80:
-                                sleep(9)
+                                sleep(8.5)
                             else:
                                 sleep(5)
                         i += 1
