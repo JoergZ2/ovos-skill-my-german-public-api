@@ -1,2 +1,2 @@
-(vekehrsnachrichten|staumeldungen) von der {highway}
-gibt es (staus|störungen) auf der {highway}
+(vekehrsnachrichten|staumeldungen) von der (autobahn|) {highway}
+gibt es (staus|störungen|verkehrsmeldungen) (auf|von) der (autobahn|) {highway}

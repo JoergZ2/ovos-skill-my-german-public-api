@@ -221,16 +221,25 @@ class MyGermanPublicApi(OVOSSkill):
                     self.speak(warn_location + ", " + warn_reason)
                 if count_warning > 1:
                     self.speak("Es gibt " + str(count_warning) + " Verkehrsmeldungen für die Autobahn " + highway + ".")
-                    sleep(6)
+                    sleep(5.5)  # Wait for 5.5 seconds before reading the first warning
                     i = 0
                     while i < count_warning:
                         answer = data['warning'][i]['description'][3].replace("->", "Richtung").replace(".",",")
                         i_natural = str(i + 1)
+                        len_answer = len(answer)
                         self.speak("Störung " + i_natural + ":  " + answer)
-                        LOG.info("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len(answer)))
+                        LOG.info("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len_answer))
                         if count_warning - i > 0:
-                            sleep(11)
+                            if len_answer > 100:
+                                sleep(11)
+                            elif len_answer > 90:
+                                sleep(9)
+                            elif len_answer > 80:
+                                sleep(7)
+                            else:
+                                sleep(5)
                         i += 1
+                    self.speak("Ende der Verkehrsmeldungen für die " + highway + ".")
             else:
                 self.speak("Aktuell liegen keine Verkehrsdaten vor.")
         except requests.exceptions.RequestException as e:
