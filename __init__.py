@@ -142,7 +142,11 @@ class MyGermanPublicApi(OVOSSkill):
         state = state[:2].lower()  # Ensure state is in lowercase and only first two letters
         base_url = "https://openplzapi.org/" + state + "/Streets?name=" \
                 + street + "&locality=" + town + "&page=1&pageSize=10"
-        response = http.request('GET',base_url, headers={"accept": "application/json"})
+        headers = {
+            'Accept': 'application/json'
+        }
+        response = requests.get(base_url, headers=headers)
+        #response = http.request('GET',base_url, headers={"accept": "application/json"})
         return response.json()
     #next functions
 
@@ -206,7 +210,7 @@ class MyGermanPublicApi(OVOSSkill):
             LOG.debug("Request result: " + str(data))
             if 'warning' in data:
                 count_warning = len(data['warning'])
-                if count_warning == None:
+                if count_warning == 0:
                     self.speak("Es gibt keine Verkehrsmeldungen für die Autobahn " + highway + ".")
                 if count_warning == 1:
                     warn_location = data['warning'][0]['description'][3].replace("->", "Richtung")
@@ -224,6 +228,10 @@ class MyGermanPublicApi(OVOSSkill):
                         i += 1
             else:
                 self.speak("Aktuell liegen keine Verkehrsdaten vor.")
+        except requests.exceptions.RequestException as e:
+            self.speak("Ein Fehler bei der API-Anfrage ist aufgetreten: " + e)
+        except json.JSONDecodeError:
+            self.speak("Fehler beim Parsen der JSON-Antwort.")
 
     #Intents    
     @intent_handler('postalcode_dialog.intent')
