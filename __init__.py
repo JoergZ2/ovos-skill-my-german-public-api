@@ -231,7 +231,7 @@ class MyGermanPublicApi(OVOSSkill):
                         LOG.info("Zeichenzahl der Störungen, Störung " + i_natural + ", Anzahl: " + str(len_answer))
                         if count_warning - i > 0:
                             if len_answer > 100:
-                                sleep(13)
+                                sleep(12.5)
                             elif len_answer > 90:
                                 sleep(11)
                             elif len_answer > 80:
