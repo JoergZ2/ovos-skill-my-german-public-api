@@ -219,12 +219,11 @@ class MyGermanPublicApi(OVOSSkill):
                 if count_warning > 1:
                     self.speak("Es gibt " + str(count_warning) + " Verkehrsmeldungen für die Autobahn " + highway + ".")
                     i = 0
-                    while i < len(data['data']):
-                        warn_area = data['data'][i]['area']
-                        warn_text = data['data'][i]['text']
-                        self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type + ", Text: " + warn_text)
+                    while i < count_warning
+                        answer = data['warning'][i]['description'][3].replace("->", "Richtung").replace(".",",")
+                        self.speak("Störung " + str(i) + ":  " + answer)
                         if len(data['data']) > 1 and len(data['data']) - i > 0:
-                            sleep(3)
+                            sleep(5)
                         i += 1
             else:
                 self.speak("Aktuell liegen keine Verkehrsdaten vor.")
