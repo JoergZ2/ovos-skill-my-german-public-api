@@ -1,4 +1,5 @@
 import requests, json
+from datetime import datetime
 from time import sleep
 from ovos_utils import classproperty
 from ovos_utils.log import LOG
@@ -7,6 +8,7 @@ from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills import OVOSSkill
 from ovos_bus_client.session import SessionManager
 from ovos_date_parser import extract_datetime, nice_date
+from ovos_date_time_skill import nice_date
 
 # -*- coding: utf-8 -*-
 DEFAULT_SETTINGS = {
@@ -127,6 +129,17 @@ class MyGermanPublicApi(OVOSSkill):
         # Handle settings changes if necessary
 
     #Functions
+    ##Helpers
+    def make_date_non_dayname(self, timestamp):
+        """
+        Normally nice_date delivers speakable date always with name of the day e. g. 'Monday, 2th....'.
+        """
+        join_chr = ", "
+        date = nice_date(date, self.lang)
+        date = date.split(",") #makes a list from utterance
+        date = date.pop(0) #deletes first entry of list - the name of the day e.g. 'Monday. '
+        date = join_chr.join(date) # makes a string of the list
+        return date
     ##General functios
     ###State values
     def state_values(self, state):
@@ -248,6 +261,36 @@ class MyGermanPublicApi(OVOSSkill):
         except json.JSONDecodeError:
             self.speak("Fehler beim Parsen der JSON-Antwort.")
 
+    ##travel warnings functions
+    def fetch_travel_warnings(self):
+        url = "https://www.auswaertiges-amt.de/api/opendata/travelwarning"
+        headers = {
+            'Accept': 'application/json'
+        }
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+            LOG.debug("Request result: " + str(data))
+            if data['response']['contentList']:
+                warnings = []
+                for i in data['response']['contentList']:
+                    if data['response'][i]['warning']:
+                        timestamp = data['response'][i]['lastModified']
+                        date = datetime.fromtimestamp(timestamp)
+                        warnings.append({"date": date, "warn_nessage": data['response'][i]['warning']})
+                if warnings:
+                    for i in warnings:
+                        date = self.make_date_non_dayname(warnings[i]['date'])
+                        country = warnings[i]['warn_message']
+                        self.speak("Reisewarnung für " + country + " seit dem " + date)
+            else:
+                self.speak("Aktuell liegen keine Reisewarnungen vor.")
+        except requests.exceptions.RequestException as e:
+            self.speak("Ein Fehler bei der API-Anfrage ist aufgetreten: " + e)
+        except json.JSONDecodeError:
+            self.speak("Fehler beim Parsen der JSON-Antwort.")
+
     #Intents    
     @intent_handler('postalcode_dialog.intent')
     def handle_postalcode_dialog(self, message):
@@ -279,3 +322,7 @@ class MyGermanPublicApi(OVOSSkill):
             self.fetch_traffic_jam(highway)
         else:
             self.speak("Es muss eine Autobahnnumerin der Form A 39 angegeben werden.")
+
+    @intent_handler('travel_warnings.intent'
+    def handle_travel_warnings(self, message):
+    
