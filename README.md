@@ -19,4 +19,4 @@ Je nach Anzahl der Meldungen des Servers (keine, genau eine oder mehr als eine) 
 ## Reisewarnungen des Auswärtigen Amtes
 - "Gibt es Reisewarnungen"
 
-Abgerufen werden aktuelle Reisewarnungen des Außwärtigen Amtes (= Außenministerium Deutschlands). Im Text werden der Inhalt der Warnung, also Land und ggfs. Grund und das Datum, seit dem die Warnung gültig ist, genannt.
+Abgerufen werden aktuelle Reisewarnungen des Auswärtigen Amtes (= Außenministerium Deutschlands). Zur Zeit ist das Ergebnis eine Aufzählung von Ländernamen, für die es Reisewarnungen gibt und Ländern, für die es Sicherheitshinweise gibt. die genauen Hintergründe für die Warnungen und Hinweise sind nicht enthalten. Diese müssen anderweitig recherchiert werden z. B. hier: https://www.auswaertiges-amt.de/de/reiseundsicherheit/10-2-8reisewarnungen.
