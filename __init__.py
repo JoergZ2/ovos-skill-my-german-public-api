@@ -311,7 +311,7 @@ class MyGermanPublicApi(OVOSSkill):
                     countries_string = ", ".join(countries)
                     countries_string = countries_string.replace(", ", ",  -  ")
                     self.speak(warning_string + countries_string)
-                    sleep(len(countries))
+                    sleep(len(countries)) #necessary to avoid TTS overlapping
                 if warning_counter != 0 and partial_warning_counter != 0:
                     warning_string = " und " + str(partial_warning_counter) + " Sicherheitshinweise."
                     self.speak(warning_string)
@@ -323,7 +323,7 @@ class MyGermanPublicApi(OVOSSkill):
                             countries.append(country['country'])
                         countries_string = ", ".join(countries)
                         self.speak(countries_string)
-                        sleep(len(countries)/2)
+                        sleep(len(countries)) #necessary to avoid TTS overlapping
                     else:
                         pass
                 if warning_counter == 0 and partial_warning_counter != 0:
