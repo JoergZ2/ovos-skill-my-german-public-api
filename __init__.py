@@ -296,59 +296,59 @@ class MyGermanPublicApi(OVOSSkill):
                         situation_part_warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
                     else:
                         no_warnings.append(data['response'][i]['countryName'])
-                    warning_counter = len(warnings)
-                    partial_warning_counter = len(partial_warnings)
-                    situation_warning_counter = len(situations_warnings)
-                    situation_part_warning_counter = len(situation_part_warnings)
-                    if warning_counter == 0 and partial_warning_counter == 0 and situation_warning_counter == 0 and situation_part_warning_counter == 0:
-                        self.speak("Aktuell liegen keine Reisewarnungen und Sicherheitsinformationen vor.")
-                    if warning_counter != 0:
-                        warning_string = "Es gibt " + str(warning_counter) + " Reisewarnungen  für folgende Länder: "
+                warning_counter = len(warnings)
+                partial_warning_counter = len(partial_warnings)
+                situation_warning_counter = len(situations_warnings)
+                situation_part_warning_counter = len(situation_part_warnings)
+                if warning_counter == 0 and partial_warning_counter == 0 and situation_warning_counter == 0 and situation_part_warning_counter == 0:
+                    self.speak("Aktuell liegen keine Reisewarnungen und Sicherheitsinformationen vor.")
+                if warning_counter != 0:
+                    warning_string = "Es gibt " + str(warning_counter) + " Reisewarnungen  für folgende Länder: "
+                    countries = []
+                    for country in warnings:
+                        countries.append(country['country'])
+                    countries_string = ", ".join(countries)
+                    self.speak(warning_string + countries_string)
+                if warning_counter != 0 and partial_warning_counter != 0:
+                    warning_string += " und " + str(partial_warning_counter) + " Sicherheitshinweise für " + str (situation_part_warning_counter) + " Länder."
+                    self.speak(warning_string)
+                    answer = self.ask_yesno("ask_for part_warnings")
+                    if answer == "yes":
+                        self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
                         countries = []
-                        for country in warnings:
+                        for country in partial_warnings:
                             countries.append(country['country'])
                         countries_string = ", ".join(countries)
-                        self.speak(warning_string + countries_string)
-                    if warning_counter != 0 and partial_warning_counter != 0:
-                        warning_string += " und " + str(partial_warning_counter) + " Sicherheitshinweise für " + str (situation_part_warning_counter) + " Länder."
-                        self.speak(warning_string)
-                        answer = self.ask_yesno("ask_for part_warnings")
-                        if answer == "yes":
-                            self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
-                            countries = []
-                            for country in partial_warnings:
-                                countries.append(country['country'])
-                            countries_string = ", ".join(countries)
-                            self.speak(countries_string)
-                        else:
-                            pass
-                    if warning_counter == 0 and partial_warning_counter != 0:
-                        warning_string += "Es gibt Sicherheitshinweise für " + str(partial_warning_counter) + "Länder."
-                        self.speak(warning_string)
-                        answer = self.ask_yesno("ask_for part_warnings")
-                        if answer == "yes":
-                            self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
-                            countries = []
-                            for country in partial_warnings:
-                                countries.append(country['country'])
-                            countries_string = ", ".join(countries)
-                            self.speak(countries_string)
-                        else:
-                            pass
-                    if situation_warning_counter != 0 or situation_part_warning_counter != 0:
-                        warning_string = "Es gibt allgemeine Hinweise für " + str(situation_warning_counter + situation_part_warning_counter) + "Länder"
-                        self.speak(warning_string)
-                        answer = self.ask_yesno("ask_for part_warnings")
-                        if answer == "yes":
-                            countries = []
-                            for country in situations_warnings:
-                                countries.append(country['country'])
-                            for country in situation_part_warnings:
-                                countries.append(country['country'])
-                            countries_string = ", ".join(countries)
-                            self.speak(countries_string)
-                        else:
-                            pass
+                        self.speak(countries_string)
+                    else:
+                        pass
+                if warning_counter == 0 and partial_warning_counter != 0:
+                    warning_string += "Es gibt Sicherheitshinweise für " + str(partial_warning_counter) + "Länder."
+                    self.speak(warning_string)
+                    answer = self.ask_yesno("ask_for part_warnings")
+                    if answer == "yes":
+                        self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
+                        countries = []
+                        for country in partial_warnings:
+                            countries.append(country['country'])
+                        countries_string = ", ".join(countries)
+                        self.speak(countries_string)
+                    else:
+                        pass
+                if situation_warning_counter != 0 or situation_part_warning_counter != 0:
+                    warning_string = "Es gibt allgemeine Hinweise für " + str(situation_warning_counter + situation_part_warning_counter) + "Länder"
+                    self.speak(warning_string)
+                    answer = self.ask_yesno("ask_for part_warnings")
+                    if answer == "yes":
+                        countries = []
+                        for country in situations_warnings:
+                            countries.append(country['country'])
+                        for country in situation_part_warnings:
+                            countries.append(country['country'])
+                        countries_string = ", ".join(countries)
+                        self.speak(countries_string)
+                    else:
+                        pass
                 #i = 0
                 #if warnings:
                     #while i < len(warnings):
