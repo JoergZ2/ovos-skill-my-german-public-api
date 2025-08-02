@@ -270,7 +270,7 @@ class MyGermanPublicApi(OVOSSkill):
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
-            LOG.info("Request result: " + str(data))
+            LOG.debug("Request result: " + str(data))
             if data['response']['contentList']:
                 warnings = []
                 partial_warnings = []
@@ -296,6 +296,7 @@ class MyGermanPublicApi(OVOSSkill):
                         situation_part_warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
                     else:
                         no_warnings.append(data['response'][i]['countryName'])
+                LOG.info(str(warnings) + "\n\n" + str(partial_warnings) + "\n\n" + str(situations_warnings) + "\n\n" + str(situation_part_warnings))
                 warning_counter = len(warnings)
                 partial_warning_counter = len(partial_warnings)
                 situation_warning_counter = len(situations_warnings)
