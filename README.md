@@ -18,5 +18,6 @@ Da es sich bei all diesen Begriffen häufig um Eigennamen handelt, haben STT- (s
 Je nach Anzahl der Meldungen des Servers (keine, genau eine oder mehr als eine) unterscheiden sich die Ansagen strukturell. Dabei habe ich versucht je nach Länge der gesprochenen Informationen Pausen einzubauen. Es hängt allerdings auch von der Latenz des verwendeten TTS-Sytems ab, ob die Pausen eher zu kurz oder eher zu lang erscheinen.
 ## Reisewarnungen des Auswärtigen Amtes
 - "Gibt es Reisewarnungen"
+- "Welche Reisewarnungen gibt es [aktuell]"
 
 Abgerufen werden aktuelle Reisewarnungen des Auswärtigen Amtes (= Außenministerium Deutschlands). Zur Zeit ist das Ergebnis eine Aufzählung von Ländernamen, für die es Reisewarnungen gibt und Ländern, für die es Sicherheitshinweise gibt. die genauen Hintergründe für die Warnungen und Hinweise sind nicht enthalten. Diese müssen anderweitig recherchiert werden z. B. hier: https://www.auswaertiges-amt.de/de/reiseundsicherheit/10-2-8reisewarnungen.
