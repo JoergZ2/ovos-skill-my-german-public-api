@@ -309,18 +309,21 @@ class MyGermanPublicApi(OVOSSkill):
                     for country in warnings:
                         countries.append(country['country'])
                     countries_string = ", ".join(countries)
+                    countries_string = countries_string.replace(", ", ",  -  ")
                     self.speak(warning_string + countries_string)
+                    sleep(len(countries))
                 if warning_counter != 0 and partial_warning_counter != 0:
-                    warning_string += " und " + str(partial_warning_counter) + " Sicherheitshinweise für " + str (situation_part_warning_counter) + " Länder."
+                    warning_string = " und " + str(partial_warning_counter) + " Sicherheitshinweise."
                     self.speak(warning_string)
-                    answer = self.ask_yesno("ask_for part_warnings")
+                    answer = self.ask_yesno("ask_for_part_warnings")
                     if answer == "yes":
-                        self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
+                        self.speak("Sicherheitshinweise gibt es für folgende Länder: ")
                         countries = []
                         for country in partial_warnings:
                             countries.append(country['country'])
                         countries_string = ", ".join(countries)
                         self.speak(countries_string)
+                        sleep(len(countries)/2)
                     else:
                         pass
                 if warning_counter == 0 and partial_warning_counter != 0:
