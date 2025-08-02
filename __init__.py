@@ -194,8 +194,8 @@ class MyGermanPublicApi(OVOSSkill):
                 i = 0
                 while i < len(data['data']):
                     warn_type = data['data'][i]['lhpClassName']
-                    warn_area = data['data'][i]['areaDesc']
-                    self.speak("Region: " + warn_area + ", Warnungsart: " + warn_type)
+                    warn_area = data['data'][i]['areaDesc'].replace("Lkr.","Landkreis")
+                    self.speak("Region: " + warn_area + ", Meldung: " + warn_type)
                     if len(data['data']) > 1 and len(data['data']) - i > 0:
                         sleep(3)
                     i += 1
@@ -270,25 +270,97 @@ class MyGermanPublicApi(OVOSSkill):
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
-            LOG.debug("Request result: " + str(data))
+            LOG.info("Request result: " + str(data))
             if data['response']['contentList']:
                 warnings = []
+                partial_warnings = []
+                situations_warnings = []
+                situation_part_warnings = []
+                no_warnings = []
                 for i in data['response']['contentList']:
                     if data['response'][i]['warning']:
                         timestamp = data['response'][i]['lastModified']
                         date = datetime.fromtimestamp(timestamp)
-                        warnings.append({"date": date, "nessage": data['response'][i]['title']})
-                i = 0
-                if warnings:
-                    while i < len(warnings):
-                        LOG.debug("Warnings are: " + str(warnings[i]))
-                        date = self.make_date_non_dayname(warnings[i]['date'])
-                        message = warnings[i]['message']
-                        if country != None:
-                            self.speak("Ja, es gibt eine Reisewarnung für " + country + " seit dem " + date)
-                        self.speak("Reisewarnung für " + message + " seit dem " + date)
-                        sleep(5)
-                        i += 1
+                        warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
+                    if data['response'][i]['partialWarning']:
+                        timestamp = data['response'][i]['lastModified']
+                        date = datetime.fromtimestamp(timestamp)
+                        partial_warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
+                    if data['response'][i]['situationWarning']:
+                        timestamp = data['response'][i]['lastModified']
+                        date = datetime.fromtimestamp(timestamp)
+                        situations_warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
+                    if data['response'][i]['situationPartWarning']:
+                        timestamp = data['response'][i]['lastModified']
+                        date = datetime.fromtimestamp(timestamp)
+                        situation_part_warnings.append({"date": date, "message": data['response'][i]['title'],"country": data['response'][i]['countryName']})
+                    else:
+                        no_warnings.append(data['response'][i]['countryName'])
+                    warning_counter = len(warnings)
+                    partial_warning_counter = len(partial_warnings)
+                    situation_warning_counter = len(situations_warnings)
+                    situation_part_warning_counter = len(situation_part_warnings)
+                    if warning_counter == 0 and partial_warning_counter == 0 and situation_warning_counter == 0 and situation_part_warning_counter == 0:
+                        self.speak("Aktuell liegen keine Reisewarnungen und Sicherheitsinformationen vor.")
+                    if warning_counter != 0:
+                        warning_string = "Es gibt " + str(warning_counter) + " Reisewarnungen  für folgende Länder: "
+                        countries = []
+                        for country in warnings:
+                            countries.append(country['country'])
+                        countries_string = ", ".join(countries)
+                        self.speak(warning_string + countries_string)
+                    if warning_counter != 0 and partial_warning_counter != 0:
+                        warning_string += " und " + str(partial_warning_counter) + " Sicherheitshinweise für " + str (situation_part_warning_counter) + " Länder."
+                        self.speak(warning_string)
+                        answer = self.ask_yesno("ask_for part_warnings")
+                        if answer == "yes":
+                            self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
+                            countries = []
+                            for country in partial_warnings:
+                                countries.append(country['country'])
+                            countries_string = ", ".join(countries)
+                            self.speak(countries_string)
+                        else:
+                            pass
+                    if warning_counter == 0 and partial_warning_counter != 0:
+                        warning_string += "Es gibt Sicherheitshinweise für " + str(partial_warning_counter) + "Länder."
+                        self.speak(warning_string)
+                        answer = self.ask_yesno("ask_for part_warnings")
+                        if answer == "yes":
+                            self.speak("Es gibt " + str(partial_warning_counter) + " Sicherheitshinweise für folgende Länder: ")
+                            countries = []
+                            for country in partial_warnings:
+                                countries.append(country['country'])
+                            countries_string = ", ".join(countries)
+                            self.speak(countries_string)
+                        else:
+                            pass
+                    if situation_warning_counter != 0 or situation_part_warning_counter != 0:
+                        warning_string = "Es gibt allgemeine Hinweise für " + str(situation_warning_counter + situation_part_warning_counter) + "Länder"
+                        self.speak(warning_string)
+                        answer = self.ask_yesno("ask_for part_warnings")
+                        if answer == "yes":
+                            countries = []
+                            for country in situations_warnings:
+                                countries.append(country['country'])
+                            for country in situation_part_warnings:
+                                countries.append(country['country'])
+                            countries_string = ", ".join(countries)
+                            self.speak(countries_string)
+                        else:
+                            pass
+                #i = 0
+                #if warnings:
+                    #while i < len(warnings):
+                        #LOG.debug("Warnings are: " + str(warnings[i]))
+                        #date = self.make_date_non_dayname(warnings[i]['date'])
+                        #message = warnings[i]['message']
+                        #if country != None and country.lower() == warnings[i]['countyName'].lower():
+                            #self.speak("Ja, es gibt eine Reisewarnung für " + country + " seit dem " + date)
+                            #break
+                        #self.speak("Reisewarnung für " + message + " seit dem " + date)
+                        #sleep(5)
+                        #i += 1
             else:
                 self.speak("Aktuell liegen keine Reisewarnungen vor.")
         except requests.exceptions.RequestException as e:
