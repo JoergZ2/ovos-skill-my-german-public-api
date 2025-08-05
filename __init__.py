@@ -143,7 +143,7 @@ DEFAULT_SETTINGS = {
         "Mainfranken": "Mainfranken",
         "Mecklenburg-Vorpommern": "Mecklenburg-Vorpommern"
     },
-    "pollen_days ": {
+    "pollen_days": {
         "heute": "today",
         "morgen": "tomorrow",
         "übermorgen": "dayafter_to"
@@ -519,9 +519,6 @@ class MyGermanPublicApi(OVOSSkill):
     
     @intent_handler('pollen_warning.intent')
     def handle_pollen_warning(self, message):
-        federal_state = message.data.get('federal_state', None)
-        day = message.data.get('day', None)
-        if federal_state is not None and day is not None:
-            self.speak_pollen_warning(federal_state, day)
-        else:
-            self.speak("Bitte Bundesland und Tag angeben.")
+        federal_state = self.get_response('ask_for_federal_state')
+        day = self.get_response('ask_for_day').lower()
+        self.speak_pollen_warning(federal_state, day)
