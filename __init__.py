@@ -12,7 +12,7 @@ from ovos_date_parser import extract_datetime, nice_date
 # -*- coding: utf-8 -*-
 DEFAULT_SETTINGS = {
     "__mycroft_skill_firstrun": "False",
-    "states": {
+    "flood_warning_states": {
         "schleswig-holstein": {
             "name": "Schleswig-Holstein",
             "code": "SH",
@@ -93,6 +93,69 @@ DEFAULT_SETTINGS = {
             "code": "TH",
             "key": "16"
         }
+    },
+    "pollen_federal_states": {
+        "Schleswig-Holstein": 10,
+        "Hamburg": 10,
+        "Mecklenburg-Vorpommern": 20,
+        "Niedersachsen": 30,
+        "Bremen": 30,
+        "Nordrhein-Westfalen": 40,
+        "Brandenburg": 50,
+        "Berlin": 50,
+        "Sachsen-Anhalt": 60,
+        "Thüringen":70 ,
+        "Sachsen": 80,
+        "Hessen": 90,
+        "Rheinland-Pfalz": 100,
+        "Saarland": 100,
+        "Baden-Württemberg": 110,
+        "Bayern": 120,
+    },
+        "pollen_regions": {
+        "\u00d6stl. Niedersachsen": "östliches Niedersachsen",
+        "Rhein.-Westf\u00e4l. Tiefland": "Rheinisch-Westfälisches Tiefland",
+        "Tiefland Th\u00fcringen": "Thüringer Tiefland",
+        "Th\u00fcringen": "Thüringen",
+        "Mittelgebirge Th\u00fcringen": "Thüringer Mittelgebirge",
+        "Baden-W\u00fcrttemberg": "Baden-Württemberg",
+        "Mittelgebirge Baden-W\u00fcrttemberg": "Baden-Württemberg Mittelgebirge",
+        "Allg\u00e4u/Oberbayern/Bay. Wald": "Allgäu, Oberbayern und Bayerischer Wald",
+        "Bayern n\u00f6rdl. der Donau, o. Bayr. Wald, o. Mainfranken": "Bayern nördlich der Donau, ohne Bayerischen Wald und ohne Mainfranken",
+        "Pollenflug-Gefahrenindex f\u00fcr Deutschland ausgegeben vom Deutschen Wetterdienst": "Pollenflug-Gefahrenindex für Deutschland, ausgegeben vom Deutschen Wetterdienst",
+        "Donauniederungen": "Donauniederungen",
+        "Inseln und Marschen": "Inseln und Marschen",
+        "Geest,Schleswig-Holstein und Hamburg": "Geest, Schleswig-Holstein und Hamburg",
+        "Westl. Niedersachsen/Bremen": "Westliches Niedersachsen und Bremen",
+        "Ostwestfalen": "Ostwestfalen",
+        "Mittelgebirge NRW": "Mittelgebirge Nordrhein-Westfalen",
+        "Tiefland Sachsen-Anhalt": "Sachsen-Anhalt Tiefland",
+        "Harz": "Harz",
+        "Tiefland Sachsen": "Sachsen Tiefland",
+        "Mittelgebirge Sachsen": "Sachsen Mittelgebirge",
+        "Nordhessen und hess. Mittelgebirge": "Nordhessen und hessisches Mittelgebirge",
+        "Rhein-Main": "Rhein-Main",
+        "Rhein, Pfalz, Nahe und Mosel": "Rhein, Pfalz, Nahe und Mosel",
+        "Mittelgebirgsbereich Rheinland-Pfalz": "Mittelgebirgsbereich Rheinland-Pfalz",
+        "Saarland": "Saarland",
+        "Oberrhein und unteres Neckartal": "Oberrhein und unteres Neckartal",
+        "Hohenlohe/mittlerer Neckar/Oberschwaben": "Hohenlohe, mittlerer Neckar und Oberschwaben",
+        "Mainfranken": "Mainfranken",
+        "Mecklenburg-Vorpommern": "Mecklenburg-Vorpommern"
+    },
+    "pollen_days ": {
+        "heute": "today",
+        "morgen": "tomorrow",
+        "übermorgen": "dayafter_to"
+    },
+    "pollen_stress_factors": {
+    "0": "keine Belastung",
+    "0-1": "keine bis geringe Belastung",
+    "1": "geringe Belastung",
+    "1-2": "geringe bis mittlere Belastung",
+    "2": "mittlere Belastung",
+    "2-3": "mittlere bis hohe Belastung",
+    "3": "hohe Belastung"
     }
 }
 
@@ -119,8 +182,11 @@ class MyGermanPublicApi(OVOSSkill):
     def initialize(self):
         #from template
         self.settings.merge(DEFAULT_SETTINGS, new_only=True)
-        self.states = self.settings.get('states', {})
-        LOG.debug("States loaded: {}".format(self.states))
+        self.flood_warning_states = self.settings.get('flood_warning_states', {})
+        self.pollen_federal_states = self.settings.get('pollen_federal_states', {})
+        self.pollen_regions = self.settings.get('pollen_regions', {})
+        self.pollen_days = self.settings.get('pollen_days', {})
+        self.pollen_stress_factors = self.settings.get('pollen_stress_factors', {})
         self.settings_change_callback = self.on_settings_changed
     
     def on_settings_changed(self, settings):
@@ -142,10 +208,10 @@ class MyGermanPublicApi(OVOSSkill):
     ##General functios
     ###State values
     def state_values(self, state):
-        if state.lower() in self.states:
-            state_name = self.states[state]['name']
-            state_code = self.states[state]['code']
-            state_key = self.states[state]['key']
+        if state.lower() in self.flood_warning_states:
+            state_name = self.flood_warning_states[state]['name']
+            state_code = self.floo[state]['code']
+            state_key = self.flood_warning_states[state]['key']
             return (state_name, state_code, state_key)
 
     ##postalcode functions
@@ -170,7 +236,7 @@ class MyGermanPublicApi(OVOSSkill):
             results = []
             i = 0
             while i < len(answer):
-                results.append(answer[i]['name'] + "in " + answer[i]['locality'] + "postleitzahl " + answer[i]['postalCode'])
+                results.append(answer[i]['name'] + " in " + answer[i]['locality'] + ", Postleitzahl " + answer[i]['postalCode'])
                 i += 1
             return "Es gibt mehrere Ergebnisse: " + ", ".join(results)
 
@@ -373,6 +439,47 @@ class MyGermanPublicApi(OVOSSkill):
         except json.JSONDecodeError:
             self.speak("Fehler beim Parsen der JSON-Antwort.")
 
+    ##Pollen warnings
+    def speak_pollen_warning(self, federal_state, day):
+        url = 'https://opendata.dwd.de/climate_environment/health/alerts/s31fg.json'
+        headers = {
+            'Accept': 'application/json'
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        try:
+            fed_st_nr = self.pollen_federal_states[federal_state]
+        except KeyError as e:
+            self.speak("Das Bundesland " + str(e) + " gibt es nicht.")
+            LOG.info("Federal state " + str(e) + " does not exist.")
+            return
+        try:
+            day = self.pollen_days[day]
+        except KeyError:
+            self.speak("Nur die Zeitangaben heute, morgen oder übermorgen sind zulässig.")
+            LOG.info("Time specification invalid.")
+            return
+        i = 0
+        regions = {}
+        new_region = {}
+        while i < len(data['content']):
+            pollen = []
+            if data['content'][i]['region_id'] == fed_st_nr:
+                for key in data['content'][i]['Pollen'].keys():
+                    if data['content'][i]['Pollen'][key][day] != '0':
+                        stress_factor = self.pollen_stress_factors[data['content'][i]['Pollen'][key][day]]
+                        pollen.append(key + ", " + stress_factor)
+                if data['content'][i]['partregion_name'] == "":
+                    new_region = {str(data['content'][i]['region_name']): pollen}
+                else:
+                    new_region = {str(data['content'][i]['partregion_name']): pollen}
+            regions.update(new_region)
+            i += 1
+        self.speak("Folgende Belastungen sind für " + federal_state + " gemeldet: ")
+        for key in regions:
+            self.speak("Region " + key + ": " + ". ".join(regions[key]))
+
+
     #Intents    
     @intent_handler('postalcode_dialog.intent')
     def handle_postalcode_dialog(self, message):
@@ -410,3 +517,11 @@ class MyGermanPublicApi(OVOSSkill):
         country = message.data.get('country', None)
         self.fetch_travel_warnings(country)
     
+    @intent_handler('pollen_warning.intent')
+    def handle_pollen_warning(self, message):
+        federal_state = message.data.get('federal_state', None)
+        day = message.data.get('day', None)
+        if federal_state is not None and day is not None:
+            self.speak_pollen_warning(federal_state, day)
+        else:
+            self.speak("Bitte Bundesland und Tag angeben.")
