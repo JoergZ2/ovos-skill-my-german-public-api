@@ -22,7 +22,7 @@ Je nach Anzahl der Meldungen des Servers (keine, genau eine oder mehr als eine) 
 
 Abgerufen werden aktuelle Reisewarnungen des Auswärtigen Amtes (= Außenministerium Deutschlands). Zur Zeit ist das Ergebnis eine Aufzählung von Ländernamen, für die es Reisewarnungen gibt und Ländern, für die es Sicherheitshinweise gibt. die genauen Hintergründe für die Warnungen und Hinweise sind nicht enthalten. Diese müssen anderweitig recherchiert werden z. B. hier: https://www.auswaertiges-amt.de/de/reiseundsicherheit/10-2-8reisewarnungen.
 ## Pollenwarnungen des Deutschen Wetterdienstes
-- Gibt es heute [morgen, übermorgen] Pollenwarnungen (in|für) Niedersachsen [Hamburg, Bayern, ...]
-- Welche (Pollenwarnungen|Allergiewarnungen) gibt es heute [morgen, übermorgen] für Niedersachsen [Hamburg, Bayern, ...]
+- nenne [mir] Pollenwarnungen
+- gibt es [aktuell] Pollenwarnungen
 
 Erforderlich sind die Angabe des Zeitraumes also "heute", "morgen" oder "übermorgen" sowie der Name eines Bundeslandes z. B. "Hessen". Es werde nur Warnungen genannt, wenn es eine Warnstufe oberhalb von "0" gibt. Für folgende Pflanzen werden i. d. R. Informationen vorgehalten: Ambrosia, Beifuss, Birke, Erle, Esche, Gräser, Hasel und für Roggen. Einige Bundesländer sind in Teilregionen unterteilt. Es werden Pollenwarnungen für alle Teilregionen aufgezählt. Manche Bundesländer sind vom DWD zusammengefasst worden, z.B. Schleswig-Hostein und Hamburg oder Rheinland-Pfalz und das Saarland. In diesem Fall werden die einzelnen Bundesländer als Teilregionen behandelt. Mecklenburg-Vorpommern hat keine Teilregionen.
