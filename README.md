@@ -25,4 +25,8 @@ Abgerufen werden aktuelle Reisewarnungen des Auswärtigen Amtes (= Außenministe
 - nenne [mir] Pollenwarnungen
 - gibt es [aktuell] Pollenwarnungen
 
-Erforderlich sind die Angabe des Zeitraumes also "heute", "morgen" oder "übermorgen" sowie der Name eines Bundeslandes z. B. "Hessen". Es werde nur Warnungen genannt, wenn es eine Warnstufe oberhalb von "0" gibt. Für folgende Pflanzen werden i. d. R. Informationen vorgehalten: Ambrosia, Beifuss, Birke, Erle, Esche, Gräser, Hasel und für Roggen. Einige Bundesländer sind in Teilregionen unterteilt. Es werden Pollenwarnungen für alle Teilregionen aufgezählt. Manche Bundesländer sind vom DWD zusammengefasst worden, z.B. Schleswig-Hostein und Hamburg oder Rheinland-Pfalz und das Saarland. In diesem Fall werden die einzelnen Bundesländer als Teilregionen behandelt. Mecklenburg-Vorpommern hat keine Teilregionen.
+Danach startet ein Dialog, in dem ein Bundesland und ein Zeitraim abgefragt wird. Ein Zeitraume ist "heute", "morgen" oder "übermorgen".
+
+Es werden nur Warnungen genannt, wenn es eine Warnstufe oberhalb von "0" gibt. Für folgende Pflanzen werden i. d. R. Informationen vorgehalten: Ambrosia, Beifuss, Birke, Erle, Esche, Gräser, Hasel und für Roggen.
+
+Einige Bundesländer sind in Teilregionen unterteilt. Es werden Pollenwarnungen für alle Teilregionen aufgezählt. Manche Bundesländer sind vom DWD zusammengefasst worden, z.B. Schleswig-Hostein und Hamburg oder Rheinland-Pfalz und das Saarland. In diesem Fall werden die einzelnen Bundesländer als Teilregionen behandelt. Mecklenburg-Vorpommern hat keine Teilregionen.
