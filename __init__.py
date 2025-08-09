@@ -517,8 +517,14 @@ class MyGermanPublicApi(OVOSSkill):
         country = message.data.get('country', None)
         self.fetch_travel_warnings(country)
     
-    @intent_handler('pollen_warning.intent')
-    def handle_pollen_warning(self, message):
-        federal_state = self.get_response('ask_for_federal_state')
-        day = self.get_response('ask_for_day').lower()
+    #@intent_handler('pollen_warning.intent')
+    #def handle_pollen_warning(self, message):
+        #federal_state = self.get_response('ask_for_federal_state')
+        #day = self.get_response('ask_for_day').lower()
+        #self.speak_pollen_warning(federal_state, day)
+
+    @intent_handler('pollen_warning2.intent')
+    def handle_pollen_warning2(self, message):
+        federal_state = message.data.get('federal_state', None)
+        day = message.data.get('day', None)
         self.speak_pollen_warning(federal_state, day)
