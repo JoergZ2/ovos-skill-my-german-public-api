@@ -480,7 +480,7 @@ class MyGermanPublicApi(OVOSSkill):
             self.speak("Region " + self.pollen_regions[key] + ": " + ". ".join(regions[key]))
 
 
-    #Intents    
+    #Intents
     @intent_handler('postalcode_dialog.intent')
     def handle_postalcode_dialog(self, message):
         town = self.get_response('ask_for_town', num_retries=1)
