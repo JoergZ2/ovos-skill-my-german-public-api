@@ -526,6 +526,6 @@ class MyGermanPublicApi(OVOSSkill):
     @intent_handler('pollen_warning2.intent')
     def handle_pollen_warning2(self, message):
         federal_state = message.data.get('federalstate')
-        federal_state = federal_state[0].upper()
+        federal_state = federal_state[0].upper() + federal_state[1:]
         day = message.data.get('day')
         self.speak_pollen_warning(federal_state, day)
