@@ -1,3 +1,4 @@
-ansagen pollenwarnungen für {day} (in|für) {federal_state}
-pollenwarnungen {day} für {federal_state}
-gibt es {day} warnungen auf pollen für {federal_state}
+ansagen pollenwarnungen für {day} (in|für) {federalstate}
+pollenwarnungen {day} für {federalstate}
+gibt es {day} warnungen auf pollen für {federalstate}
+gibt es für {federalstate} pollenwarnungen für {day}
