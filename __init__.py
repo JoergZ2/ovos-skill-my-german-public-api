@@ -477,7 +477,7 @@ class MyGermanPublicApi(OVOSSkill):
             i += 1
         self.speak("Folgende Belastungen sind für " + federal_state + " gemeldet: ")
         for key in regions:
-            self.speak("Region " + key + ": " + ". ".join(regions[key]))
+            self.speak("Region " + self.pollen_regions[key] + ": " + ". ".join(regions[key]))
 
 
     #Intents    
@@ -517,14 +517,14 @@ class MyGermanPublicApi(OVOSSkill):
         country = message.data.get('country', None)
         self.fetch_travel_warnings(country)
     
-    #@intent_handler('pollen_warning.intent')
-    #def handle_pollen_warning(self, message):
-        #federal_state = self.get_response('ask_for_federal_state')
-        #day = self.get_response('ask_for_day').lower()
-        #self.speak_pollen_warning(federal_state, day)
+    @intent_handler('pollen_warning.intent')
+    def handle_pollen_warning(self, message):
+        federal_state = self.get_response('ask_for_federal_state')
+        day = self.get_response('ask_for_day').lower()
+        self.speak_pollen_warning(federal_state, day)
 
     @intent_handler('pollen_warning2.intent')
     def handle_pollen_warning2(self, message):
-        federal_state = message.data.get('federal_state', None)
-        day = message.data.get('day', None)
+        federal_state = message.data.get('federal_state')
+        day = message.data.get('day')
         self.speak_pollen_warning(federal_state, day)
