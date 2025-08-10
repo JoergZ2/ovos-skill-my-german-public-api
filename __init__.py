@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, re
 from datetime import datetime
 from time import sleep
 from ovos_utils import classproperty
@@ -205,6 +205,15 @@ class MyGermanPublicApi(OVOSSkill):
         date_del = date.pop(0) #deletes first entry of list - the name of the day e.g. 'Monday. '
         date = join_chr.join(date) # makes a string of the list
         return date
+    
+    def prepare_federalstate(self, federal_state):
+        """
+        Capitalizes first letter(s) of federal state name even if \
+        double name as baden-württemberg.
+        """
+        return re.sub(r'(^|\federal_state|-)(\S)', lambda m: m.group(1) + m.group(2).upper(), \
+                    federal_state.lower())
+
     ##General functios
     ###State values
     def state_values(self, state):
@@ -528,4 +537,5 @@ class MyGermanPublicApi(OVOSSkill):
         federal_state = message.data.get('federalstate')
         federal_state = federal_state[0].upper() + federal_state[1:]
         day = message.data.get('day')
+        federal_state = self.prepare_federalstate(federal_state)
         self.speak_pollen_warning(federal_state, day)
