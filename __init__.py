@@ -457,7 +457,7 @@ class MyGermanPublicApi(OVOSSkill):
         response = requests.get(url, headers=headers)
         data = response.json()
         try:
-            fed_st_nr = self.pollen_federal_states[federal_state]
+            fed_st_nr = self.pollen_federal_states[federal_state.startswith(federal_state)]
         except KeyError as e:
             self.speak("Das Bundesland " + str(e) + " gibt es nicht.")
             LOG.info("Federal state " + str(e) + " does not exist.")
