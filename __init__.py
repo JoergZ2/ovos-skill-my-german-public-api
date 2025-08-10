@@ -450,6 +450,10 @@ class MyGermanPublicApi(OVOSSkill):
 
     ##Pollen warnings
     def speak_pollen_warning(self, federal_state, day):
+        for key in self.pollen_federal_states:
+            if key.startswith(federal_state):
+                federal_state = key
+                break
         url = 'https://opendata.dwd.de/climate_environment/health/alerts/s31fg.json'
         headers = {
             'Accept': 'application/json'
@@ -457,7 +461,7 @@ class MyGermanPublicApi(OVOSSkill):
         response = requests.get(url, headers=headers)
         data = response.json()
         try:
-            fed_st_nr = self.pollen_federal_states[federal_state.startswith(federal_state)]
+            fed_st_nr = self.pollen_federal_states[federal_state]
         except KeyError as e:
             self.speak("Das Bundesland " + str(e) + " gibt es nicht.")
             LOG.info("Federal state " + str(e) + " does not exist.")
