@@ -27,6 +27,10 @@ Abgerufen werden aktuelle Reisewarnungen des Auswärtigen Amtes (= Außenministe
 
 Danach startet ein Dialog, in dem ein Bundesland und ein Zeitraim abgefragt wird. Ein Zeitraume ist "heute", "morgen" oder "übermorgen".
 
-Es werden nur Warnungen genannt, wenn es eine Warnstufe oberhalb von "0" gibt. Für folgende Pflanzen werden i. d. R. Informationen vorgehalten: Ambrosia, Beifuss, Birke, Erle, Esche, Gräser, Hasel und für Roggen.
+Möglich ist auch die Frage:
+- gibt es heute (alternativ 'morgen' oder 'übermorgen') Pollenbelastungen in Miedersachsen (oder ein anderes Bundesland)
+- gibt es heute (alternativ...) warnungen vor pollen für Niedersachen (beliebiges Bundesland)
+
+Es werden nur Warnungen genannt, wenn es eine Warnstufe ab "keine oder geringe Belastung" gibt. Für folgende Pflanzen werden i. d. R. Informationen vorgehalten: Ambrosia, Beifuss, Birke, Erle, Esche, Gräser, Hasel und für Roggen.
 
 Einige Bundesländer sind in Teilregionen unterteilt. Es werden Pollenwarnungen für alle Teilregionen aufgezählt. Manche Bundesländer sind vom DWD zusammengefasst worden, z.B. Schleswig-Hostein und Hamburg oder Rheinland-Pfalz und das Saarland. In diesem Fall werden die einzelnen Bundesländer als Teilregionen behandelt. Mecklenburg-Vorpommern hat keine Teilregionen.
