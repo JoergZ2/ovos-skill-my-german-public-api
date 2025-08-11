@@ -103,6 +103,7 @@ DEFAULT_SETTINGS = {
         "Nordrhein-Westfalen": 40,
         "Brandenburg": 50,
         "Berlin": 50,
+        "Brandenburg und Berlin": 50,
         "Sachsen-Anhalt": 60,
         "Thüringen":70 ,
         "Sachsen": 80,
