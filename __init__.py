@@ -490,6 +490,7 @@ class MyGermanPublicApi(OVOSSkill):
             i += 1
         self.speak("Folgende Belastungen sind für " + federal_state + " gemeldet: ")
         for key in regions:
+            LOG.info("Key is: " + str(key))
             self.speak("Region " + self.pollen_regions[key] + ": " + ". ".join(regions[key]))
 
 
