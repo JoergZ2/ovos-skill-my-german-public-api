@@ -142,7 +142,8 @@ DEFAULT_SETTINGS = {
         "Oberrhein und unteres Neckartal": "Oberrhein und unteres Neckartal",
         "Hohenlohe/mittlerer Neckar/Oberschwaben": "Hohenlohe, mittlerer Neckar und Oberschwaben",
         "Mainfranken": "Mainfranken",
-        "Mecklenburg-Vorpommern": "Mecklenburg-Vorpommern"
+        "Mecklenburg-Vorpommern": "Mecklenburg-Vorpommern",
+        "Brandenburg und Berlin": "Brandenburg und Berlin"
     },
     "pollen_days": {
         "heute": "today",
@@ -188,10 +189,10 @@ class MyGermanPublicApi(OVOSSkill):
         self.pollen_regions = self.settings.get('pollen_regions', {})
         self.pollen_days = self.settings.get('pollen_days', {})
         self.pollen_stress_factors = self.settings.get('pollen_stress_factors', {})
-        self.settings_change_callback = self.on_settings_changed
+        self.settings_change_callback = self.on_settings_changed(self.settings)
     
     def on_settings_changed(self, settings):
-        LOG.info("Settings changed: {}".format(settings))
+        LOG.debug("Settings changed: {}".format(settings))
         # Handle settings changes if necessary
 
     #Functions
@@ -267,7 +268,7 @@ class MyGermanPublicApi(OVOSSkill):
             LOG.debug("Request result: " + str(data))
             # Check for key 'data' and length of key
             if 'data' in data and len(data['data'])>0:
-                i = 0
+                i = 0{"region_name":"Nordrhein-Westfalen","region_id":40,"Pollen":{"Graeser":{"tomorrow":"0-1","dayafter_to":"0-1","today":"0-1"},"Esche":{"tomorrow":"0","dayafter_to":"0","today":"0"},"Beifuss":{"tomorrow":"2","dayafter_to":"2","today":"2"},"Hasel":{"tomorrow":"0","dayafter_to":"0","today":"0"},"Ambrosia":{"tomorrow":"0-1","today":"0-1","dayafter_to":"0-1"},"Erle":{"today":"0","dayafter_to":"0","tomorrow":"0"},"Birke":{"today":"0","dayafter_to":"0","tomorrow":"0"},"Roggen":{"tomorrow":"0","today":"0","dayafter_to":"0"}},"partregion_id":41,"partregion_name":"Rhein.-Westfäl. Tiefland"},{"partregion_name":"Ostwestfalen","partregion_id":42,"region_id":40,"Pollen":{"Erle":{"dayafter_to":"0","today":"0","tomorrow":"0"},"Ambrosia":{"tomorrow":"0-1","dayafter_to":"0-1","today":"0-1"},"Hasel":{"dayafter_to":"0","today":"0","tomorrow":"0"},"Roggen":{"tomorrow":"0","dayafter_to":"0","today":"0"},"Birke":{"today":"0","dayafter_to":"0","tomorrow":"0"},"Graeser":{"tomorrow":"0-1","dayafter_to":"0-1","today":"0-1"},"Esche":{"tomorrow":"0","today":"0","dayafter_to":"0"},"Beifuss":{"dayafter_to":"2","today":"2","tomorrow":"2"}},"region_name":"Nordrhein-Westfalen"},{"partregion_id":43,"partregion_name":"Mittelgebirge NRW","Pollen":{"Graeser":{"today":"0-1","dayafter_to":"0-1","tomorrow":"0-1"},"Esche":{"tomorrow":"0","today":"0","dayafter_to":"0"},"Beifuss":{"today":"2","dayafter_to":"2","tomorrow":"2"},"Erle":{"today":"0","dayafter_to":"0","tomorrow":"0"},"Ambrosia":{"tomorrow":"0","today":"0","dayafter_to":"0"},"Hasel":{"tomorrow":"0","dayafter_to":"0","today":"0"},"Roggen":{"today":"0","dayafter_to":"0","tomorrow":"0"},"Birke":{"dayafter_to":"0","today":"0","tomorrow":"0"}},"region_id":40,"region_name":"Nordrhein-Westfalen"}
                 while i < len(data['data']):
                     warn_type = data['data'][i]['lhpClassName']
                     warn_area = data['data'][i]['areaDesc'].replace("Lkr.","Landkreis")
@@ -491,7 +492,7 @@ class MyGermanPublicApi(OVOSSkill):
             i += 1
         self.speak("Folgende Belastungen sind für " + federal_state + " gemeldet: ")
         for key in regions:
-            LOG.info("Key is: " + str(key))
+            LOG.debug("Key is: " + str(key))
             self.speak("Region " + self.pollen_regions[key] + ": " + ". ".join(regions[key]))
 
 
